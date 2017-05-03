@@ -13,6 +13,7 @@
     <th>Sequence</th>
     <th>Your answer:</th>
     <th>Correct answer:</th>
+    <th></th>
   </thead>
 <tbody>
   {% for key, value in seq.items %}
@@ -26,12 +27,15 @@
     </td>
     <td >
 {{value.corranswer}}
-
-
-
-
     </td>
+<td>
 
+  {% if value.iscorrect %}
+  <span class="glyphicon glyphicon-ok " aria-hidden="true"></span>
+  {% else %}
+  <span class="glyphicon glyphicon-remove " aria-hidden="true"></span>
+  {% endif %}
+</td>
 </tr>
 {% endfor %}
 
@@ -43,5 +47,9 @@
 {% endblock %}
 
 
-{% block scripts %}
+{% block styles %}
+<style>
+.glyphicon-ok{color:green;}
+.glyphicon-remove{color:red;}
+</style>
 {% endblock %}
