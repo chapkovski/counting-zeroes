@@ -43,6 +43,13 @@
 </table>
   </div>
 
+  <ul class="list-group">
+  <li class="list-group-item list-group-item-success">Number of correct answers:
+    <span class="badge badge-primary badge-pill">{{player.sumcorrect}}</span></li>
+  <li class="list-group-item list-group-item-warning">Your payoff:
+    <span class="badge badge-pill badge-primary ">{{player.payoff}}</span></li>
+</ul>
+
 {% next_button %}
 {% endblock %}
 
@@ -51,5 +58,10 @@
 <style>
 .glyphicon-ok{color:green;}
 .glyphicon-remove{color:red;}
+.badge-primary {background-color:blue;}
+
 </style>
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}
