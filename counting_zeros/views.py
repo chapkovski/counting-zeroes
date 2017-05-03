@@ -50,8 +50,9 @@ class Results(Page):
         for key, value in seqdict.items():
             seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
             seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+            seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
         self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
-        self.player.seqdict = json.dumps(seqdict)
+        
         self.player.payoff = self.player.sumcorrect * \
             Constants.price_per_correct_answer
         return {'seq': seqdict}
