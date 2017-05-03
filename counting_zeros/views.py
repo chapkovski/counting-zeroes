@@ -45,7 +45,7 @@ class Results(Page):
     def vars_for_template(self):
         seqdict = json.loads(self.player.seqdict)
         for key, value in seqdict.items():
-            seqdict[key]['corranswer'] = sum(value['seq_to_show'])
+            seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
         keys = [k for k, v in seqdict.items() if not v['answer']]
         for x in keys:
             del seqdict[x]
