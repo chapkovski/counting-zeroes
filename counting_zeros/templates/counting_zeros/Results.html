@@ -1,0 +1,47 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+   Results
+{% endblock %}
+
+{% block content %}
+
+<div class="panel-body">
+<table class="table table-hover table-striped table-responsive table-bordered">
+  <thead>
+    <th>Sequence</th>
+    <th>Your answer:</th>
+    <th>Correct answer:</th>
+  </thead>
+<tbody>
+  {% for key, value in seq.items %}
+
+  <tr >
+  <td > {{value.seq_to_show}} </td>
+    <td>
+{{value.answer}}
+
+
+    </td>
+    <td >
+{{value.corranswer}}
+
+
+
+
+    </td>
+
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+  </div>
+
+{% next_button %}
+{% endblock %}
+
+
+{% block scripts %}
+{% endblock %}

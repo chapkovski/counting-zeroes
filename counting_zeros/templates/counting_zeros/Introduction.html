@@ -1,0 +1,118 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Counting zeros
+{% endblock %}
+
+{% block content %}
+<div class="panel-body">
+<table class="table table-hover table-striped table-responsive table-bordered">
+<tbody>
+
+  <tr >
+
+  <td id='seq'>  </td>
+    <td width='150px'>
+
+
+   <input class="form-control" id="seq" type="number">
+
+
+    </td>
+    <td width='150px'>
+
+
+  <button type='button' id='answerbutton' class="otree-next-button btn btn-primary next-button">Next</button>
+
+
+    </td>
+
+</tr>
+
+</tbody>
+</table>
+  </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{# connecting to jquery ui just for useing switchClass. Not really necessary #}
+<script type='text/javascript' src='{% static 'js/jquery-ui.js' %}'></script>
+
+<script>
+  window.onload = function() {
+    var seq_on_load = {{seq|safe}};
+    var seq_name = seq_on_load.name;
+    $('#seq').html(seq_on_load.seq_to_show);
+    console.log(seq_on_load);
+    {# blocking submitting form by hitting enter #}
+    $(window).keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+    // Create a new WebSocket.
+    // we use wss or ws depending on http/https protocol used by server
+  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+  {# the name of the channel corresponds to the name of the channel from routing.py #}
+  var socket = new WebSocket(ws_scheme + '://' + window.location.host + "/qchannel/");
+
+  // var answer_input = document.getElementById('seq');
+  $( "#answerbutton" ).click(function() {
+   buttClick();
+});
+   buttClick = function(){
+        curanswer = $('input#seq').val()
+        var msg = {
+            playerpk: {{player.id}},
+            subsession: {{subsession.id}},
+            session: {{session.id}},
+            answer: curanswer,
+            seq_name: seq_name,
+        };
+
+        // if socket is open then we send a message with current player,session id and
+        // the content of the corresponding input box
+        if(socket.readyState === socket.OPEN){
+            socket.send(JSON.stringify(msg));
+        }
+   };
+
+
+    // Handle any errors that occur.
+    socket.onerror = function(error) {
+      console.log('WebSocket Error: ' + error);
+    };
+
+    // Show a connected message when the WebSocket is opened.
+    socket.onopen = function(event) {
+      console.log('connected to oTree');
+      var msg = {
+          playerpk: {{player.id}},
+          subsession: {{subsession.id}},
+          session: {{session.id}},
+      };
+          // socket.send(JSON.stringify(msg));
+    };
+
+    // Handle messages sent by the server.
+    socket.onmessage = function(event) {
+      console.log(event);
+      var obj = jQuery.parseJSON(event.data);
+      var seq_to_show = obj.newseq.seq_to_show;
+      seq_name = obj.newseq.name;
+      $('#seq').html(seq_to_show);
+      $('input#seq').val('');
+      console.log(seq_to_show);
+    };
+
+    // Show a disconnected message when the WebSocket is closed.
+    socket.onclose = function(event) {
+      console.log('disconnected from oTree');
+    };
+  };
+</script>
+{% endblock %}
