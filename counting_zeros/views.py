@@ -41,7 +41,7 @@ class Introduction(Page):
 
 class Results(Page):
     ...
-    # timeout_seconds = 20
+    
     def vars_for_template(self):
         seqdict = json.loads(self.player.seqdict)
         for key, value in seqdict.items():

@@ -9,12 +9,13 @@ from django import forms
 author = 'Filipp Chapkovskii, UZH'
 
 doc = """
-Channels example
+An example of real-effort task
+with counting 0s as a task
 """
 
 
 class Constants(BaseConstants):
-    name_in_url = 'channel_test'
+    name_in_url = 'counting_zeros'
     players_per_group = None
     num_rounds = 1
     seqsize = 10
