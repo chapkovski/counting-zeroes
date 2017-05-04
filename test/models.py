@@ -9,8 +9,7 @@ from django import forms
 author = 'Filipp Chapkovskii, UZH'
 
 doc = """
-An example of real-effort task
-with counting 0s as a task
+Channels example
 """
 
 
@@ -20,7 +19,7 @@ class Constants(BaseConstants):
     num_rounds = 1
     seqsize = 10
     seqthreshold = 0.5
-    price_per_correct_answer = 10
+
 
 class Subsession(BaseSubsession):
     def before_session_starts(self):
@@ -34,5 +33,4 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     seqdict = models.TextField()
-    seqcounter = models.IntegerField(initial=1)
-    sumcorrect = models.IntegerField(initial=0)
+    seqcounter = models.IntegerField(initial=0)

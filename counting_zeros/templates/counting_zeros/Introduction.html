@@ -6,43 +6,43 @@
 {% endblock %}
 
 {% block content %}
+
+<ul class="list-group">
+<li class="list-group-item list-group-item-success">Sequence number:
+  <span class="badge badge-primary badge-pill" id='seqcounter'>{{player.seqcounter}}</span></li>
+</ul>
+
 <div class="panel-body">
+  <div class="alert alert-info">
+  <strong>Please, insert the correct number of 0s (zeroes) in the shown sequence:</strong>
+</div>
+
 <table class="table table-hover table-striped table-responsive table-bordered">
 <tbody>
-
   <tr >
-
   <td id='seq'>  </td>
     <td width='150px'>
-
-
-   <input class="form-control" id="seq" type="number">
-
-
+   <input class="form-control" id="seq" type="number"  name='seq'>
     </td>
     <td width='150px'>
-
-
   <button type='button' id='answerbutton' class="otree-next-button btn btn-primary next-button">Next</button>
-
-
-    </td>
-
+  </td>
 </tr>
-
 </tbody>
 </table>
-  </div>
+</div>
 
 {% endblock %}
 
 
 {% block scripts %}
-{# connecting to jquery ui just for useing switchClass. Not really necessary #}
-<script type='text/javascript' src='{% static 'js/jquery-ui.js' %}'></script>
+
+
 
 <script>
+
   window.onload = function() {
+
     var seq_on_load = {{seq|safe}};
     var seq_name = seq_on_load.name;
     $('#seq').html(seq_on_load.seq_to_show);
@@ -62,7 +62,11 @@
 
   // var answer_input = document.getElementById('seq');
   $( "#answerbutton" ).click(function() {
-   buttClick();
+    if ($('input#seq').val()) {
+       // do something here when the form is valid
+       buttClick();
+   }
+
 });
    buttClick = function(){
         curanswer = $('input#seq').val()
@@ -106,7 +110,8 @@
       seq_name = obj.newseq.name;
       $('#seq').html(seq_to_show);
       $('input#seq').val('');
-      console.log(seq_to_show);
+      $('span#seqcounter').html(obj.seqcounter);
+      console.log(obj.seqcounter);
     };
 
     // Show a disconnected message when the WebSocket is closed.
@@ -115,4 +120,6 @@
     };
   };
 </script>
+
+
 {% endblock %}

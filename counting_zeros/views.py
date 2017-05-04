@@ -3,7 +3,7 @@ from . import models
 from ._builtin import Page, WaitPage
 from .models import Constants
 import random
-import collections
+from collections import OrderedDict
 import json
 
 
@@ -52,10 +52,10 @@ class Results(Page):
             seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
             seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
         self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
-        
+
         self.player.payoff = self.player.sumcorrect * \
             Constants.price_per_correct_answer
-        return {'seq': seqdict}
+        return {'seq': OrderedDict(sorted(seqdict.items()))}
 
 page_sequence = [
     Introduction,

@@ -26,6 +26,7 @@ def ws_message(message):
     message.reply_channel.send({
         "text": json.dumps({
             "newseq": seqdict[get_seqname(myplayer.seqcounter)],
+            "seqcounter": myplayer.seqcounter,
         }),
     })
 
